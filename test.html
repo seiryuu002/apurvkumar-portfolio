@@ -1,107 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Secret page</title>
-    </head>
+
+<head>
+    <meta charset="UTF-8">
+    <title>🌸 Secret Garden</title>
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
         }
-    
+
         body {
-            min-height: 100vh;
-            background: #d685ba;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
-    
-        .container {
+            flex-direction: column;
             text-align: center;
-            padding: 2rem;
         }
-    
-        .avatar {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 20px;
-            font-weight: 500;
-            color: #e0e0e0;
-            letter-spacing: 1px;
-        }
-    
+
         h1 {
-            font-size: 28px;
-            font-weight: 500;
-            color: #f0f0f0;
-            margin-bottom: 0.4rem;
-            letter-spacing: -0.5px;
+            font-size: 3rem;
+            opacity: 0;
+            animation: fadeIn 2s ease forwards;
         }
-    
-        .domain {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.35);
-            font-family: monospace;
-            letter-spacing: 0.5px;
-            margin-bottom: 1.5rem;
+
+        p {
+            margin-top: 15px;
+            opacity: 0;
+            animation: fadeIn 3s ease forwards;
         }
-    
-        .divider {
-            width: 32px;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.12);
-            margin: 0 auto 1.5rem;
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
         }
-    
-        .tagline {
-            font-size: 15px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-    
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 999px;
-            padding: 6px 14px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.4);
-        }
-    
-        .dot {
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
             width: 6px;
             height: 6px;
+            background: white;
             border-radius: 50%;
-            background: #4ade80;
+            opacity: 0.6;
+            animation: float 10s linear infinite;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(-10vh);
+                opacity: 1;
+            }
+        }
+
+        /* Flower */
+        .flower {
+            position: absolute;
+            font-size: 2rem;
+            animation: bloom 1s ease forwards;
+        }
+
+        @keyframes bloom {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Secret message */
+        #message {
+            margin-top: 20px;
+            opacity: 0;
+            transition: 1s;
+        }
+
+        .show {
+            opacity: 1 !important;
         }
     </style>
-    <body>
-        <div class="container">
-            <div class="avatar">GS</div>
-            <h1>Shailiiiii</h1>
-            <p class="domain">apurvkumar.me/shaili</p>
-            <div class="divider"></div>
-            <p class="tagline">This page exists solely for Shailiiiii.</p>
-            <div class="badge">
-                <span class="dot"></span>
-                Coming soon
-            </div>
-        </div>
-    </body>
+</head>
+
+<body>
+
+    <h1>🌸 Welcome to the Secret Garden</h1>
+    <p>Click anywhere to grow something beautiful...</p>
+
+    <div id="message">✨ You found something not meant for everyone ✨</div>
+
+    <script>
+
+        // 🌟 Floating particles
+        function createParticle() {
+            const p = document.createElement("div");
+            p.className = "particle";
+            p.style.left = Math.random() * window.innerWidth + "px";
+            p.style.animationDuration = (5 + Math.random() * 5) + "s";
+            document.body.appendChild(p);
+
+            setTimeout(() => p.remove(), 10000);
+        }
+
+        setInterval(createParticle, 200);
+
+        // 🌸 Click = flower bloom
+        let clicks = 0;
+
+        document.addEventListener("click", (e) => {
+            const flower = document.createElement("div");
+            flower.className = "flower";
+            flower.innerText = ["🌸", "🌼", "🌷", "🪷", "🌻"][Math.floor(Math.random() * 5)];
+
+            flower.style.left = e.clientX + "px";
+            flower.style.top = e.clientY + "px";
+
+            document.body.appendChild(flower);
+
+            setTimeout(() => flower.remove(), 4000);
+
+            clicks++;
+
+            // ✨ Unlock secret message
+            if (clicks === 7) {
+                document.getElementById("message").classList.add("show");
+            }
+        });
+
+        // 🔐 Optional access key
+        const key = prompt("Enter the secret key:");
+
+        if (key !== "tora123") {
+            document.body.innerHTML = "<h1>Access Denied</h1>";
+        }
+
+    </script>
+
+</body>
+
 </html>
