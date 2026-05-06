@@ -1,5 +1,7 @@
 import * as Three from 'three';
 import {gsap} from 'gsap';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 //scene
 const scene = new Three.Scene();
@@ -16,24 +18,46 @@ const renderer = new Three.WebGLRenderer({antialias: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-//Geometry
-const geometry = new Three.BoxGeometry(2,2,2);
+// orbit controls
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
 
-//Material
-const material = new Three.MeshStandardMaterial({color: 0x00aaff});
+// model
+const loader = new GLTFLoader();
+loader.load(
+  '/flipvilla/models/human.glb', 
 
-//Mesh
-const cube = new Three.Mesh(geometry, material);
-scene.add(cube);
+  (gltf) => {
+    const model = gltf.scene;
 
-//Ambient Light
-const ambientLight = new Three.AmbientLight(0xffffff, 0.6);
-scene.add(ambientLight);
+    scene.add(model);
+
+    // scale fix (VERY common)
+    model.scale.set(1, 1, 1);
+
+    // position fix
+    model.position.set(0, -1.5, 0);
+
+    console.log('Model loaded ✅');
+  },
+
+  (progress) => {
+    console.log((progress.loaded / progress.total) * 100 + '% loaded');
+  },
+
+  (error) => {
+    console.error('Error loading model ❌', error);
+  }
+);
+
+//Light
+const hemisphereLight = new Three.HemisphereLight(0xffffff, 0x444444, 1);
+scene.add(hemisphereLight);
 
 //Directional Light
-const directionalLight = new Three.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(5,5,5);
-scene.add(directionalLight);
+const dirLight = new Three.DirectionalLight(0xffffff, 1);
+dirLight.position.set(5, 10, 5);
+scene.add(dirLight);
 
 // resize
 window.addEventListener('resize', () => {
@@ -43,21 +67,11 @@ window.addEventListener('resize', () => {
 });
 
 
-//camera move on click
-window.addEventListener('click', () => {
-  gsap.to(camera.position, {
-    x: Math.random() * 6 - 3,
-    y: Math.random() * 4 + 1,
-    z: Math.random() * 6 + 3,
-    duration: 1.5,
-    ease: "power2.out"
-  });
-});
-
 function animate(){
     requestAnimationFrame(animate);
-    cube.rotation.y += 0.01;
-    camera.lookAt(cube.position);
+    
+    controls.update();
+    
     renderer.render(scene, camera);
 }
 
