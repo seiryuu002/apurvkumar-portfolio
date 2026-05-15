@@ -1,12 +1,12 @@
 {
   "routes": [
     {
-      "src": "^/flipvilla/?$",
-      "dest": "/flipvilla/dist/index.html"
+      "src": "^/flipvilla/flip-client/?$",
+      "dest": "/flipvilla/flip-client/dist/index.html"
     },
     {
-      "src": "^/flipvilla/(.*)",
-      "dest": "/flipvilla/dist/$1"
+      "src": "^/flipvilla/flip-client/(.*)",
+      "dest": "/flipvilla/flip-client/dist/$1"
     }
   ]
 }
