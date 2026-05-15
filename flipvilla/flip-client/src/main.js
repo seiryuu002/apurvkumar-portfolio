@@ -11,7 +11,7 @@ const scene = new Three.Scene();
 scene.background = new Three.Color(0x87CEEB);
 
 // Ground
-const groundGeometry = new Three.PlaneGeometry(100, 100);
+const groundGeometry = new Three.PlaneGeometry(150, 150);
 const groundMaterial = new Three.MeshStandardMaterial({
   color: 0x228B22
 })
@@ -62,10 +62,10 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
 // human model
-loadModel('/flipvilla/models/human.glb', [0, -1.5, 0], [1, 1, 1], 'host');
+loadModel('/models/human.glb', [0, -1.5, 0], [1, 1, 1], 'host');
 
-loadModel('/flipvilla/models/human.glb', [-5, 0, 3], [1, 1, 1], 'human2');
-loadModel('/flipvilla/models/human.glb', [5, 0, -3], [1, 1, 1], 'human3');
+loadModel('/models/human.glb', [-5, 0, 3], [1, 1, 1], 'human2');
+loadModel('/models/human.glb', [5, 0, -3], [1, 1, 1], 'human3');
 
 
 //Light
