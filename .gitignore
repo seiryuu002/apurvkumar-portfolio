@@ -2,4 +2,5 @@
 flipvilla/flip-client/node_modules
 flipvilla/flip-server/*/obj
 flipvilla/flip-server/flip.api/appsettings.Development.json
+flipvilla/flip-server/*/*.csproj.lscache
 .vscode
