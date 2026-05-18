@@ -1,6 +1,0 @@
-@flip.api_HostAddress = http://localhost:5240
-
-GET {{flip.api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
